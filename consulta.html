@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Usuários</title>
+    <script>
+        function fetchUsuarios() {
+            fetch('/usuarios')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('result').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar os dados:', error);
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>Consulta de Usuários</h1>
+    <button onclick="fetchUsuarios()">Mostrar Registros</button>
+    <div id="result"></div>
+</body>
+</html>
