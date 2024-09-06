@@ -13,10 +13,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Configuração da conexão com o banco de dados
 const con = mysql.createConnection({
-    host: "sql110.byethost14.com",
-    user: "b14_37166215",
-    password: "LALA!006",
-    database: "b14_37166215_nó"
+    host: "sql10.freemysqlhosting.net",
+    user: "sql10729887",
+    password: "QlnaW6G2x3",
+    database: "sql10729887"
 });
 
 // Conectar ao banco de dados
