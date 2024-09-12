@@ -111,7 +111,7 @@ app.get('/search-results', (req, res) => {
     let sql = "SELECT id, nome, telefone, senha, imagem FROM usuario";
     const params = [];
 
-    if (query !== '*') {
+    if (query && query !== '*') {
         sql += " WHERE nome LIKE ? OR telefone LIKE ? OR senha LIKE ? OR id = ?";
         const likeQuery = '%' + query + '%';
         params.push(likeQuery, likeQuery, likeQuery, query);
@@ -152,22 +152,26 @@ app.post('/update', (req, res) => {
         params.push(image);
     }
 
-    sql = sql.slice(0, -2); // Remove a última vírgula
-    sql += " WHERE id = ?";
-    params.push(id);
+    if (params.length > 0) {
+        sql = sql.slice(0, -2); // Remove a última vírgula
+        sql += " WHERE id = ?";
+        params.push(id);
 
-    con.query(sql, params, (err, result) => {
-        if (err) {
-            console.error("Erro ao atualizar o banco de dados:", err);
-            res.status(500).send("Erro ao atualizar os dados. Por favor, tente novamente.");
-            return;
-        }
-        if (result.affectedRows === 0) {
-            res.status(404).send("Usuário não encontrado.");
-            return;
-        }
-        res.send("Usuário atualizado com sucesso!");
-    });
+        con.query(sql, params, (err, result) => {
+            if (err) {
+                console.error("Erro ao atualizar o banco de dados:", err);
+                res.status(500).send("Erro ao atualizar os dados. Por favor, tente novamente.");
+                return;
+            }
+            if (result.affectedRows === 0) {
+                res.status(404).send("Usuário não encontrado.");
+                return;
+            }
+            res.send("Usuário atualizado com sucesso!");
+        });
+    } else {
+        res.status(400).send("Nenhum dado para atualizar.");
+    }
 });
 
 // Rota para exibir imagem do usuário
