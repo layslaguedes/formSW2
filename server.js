@@ -152,23 +152,24 @@ app.post('/update', (req, res) => {
         params.push(image);
     }
 
-    if (params.length > 0) {
-        sql = sql.slice(0, -2); // Remove a última vírgula
-        sql += " WHERE id = ?";
-        params.push(id);
+   // Corrige a fatia e adiciona "ONDE" para "WHERE"
+sql = sql.slice(0, -2);  // Remove a última vírgula
+sql += " WHERE id = ?";  // Corrige de "ONDE" para "WHERE"
+parametros.push(id);  // Certifique-se de que a variável 'parametros' está correta
 
-        con.query(sql, params, (err, result) => {
-            if (err) {
-                console.error("Erro ao atualizar o banco de dados:", err);
-                res.status(500).send("Erro ao atualizar os dados. Por favor, tente novamente.");
-                return;
-            }
-            if (result.affectedRows === 0) {
-                res.status(404).send("Usuário não encontrado.");
-                return;
-            }
-            res.send("Usuário atualizado com sucesso!");
-        });
+com.query(sql, parametros, (err, resultado) => {
+    if (err) {
+        console.error("Erro ao atualizar o banco de dados:", err);
+        res.status(500).send("Erro ao atualizar os dados. Por favor, tente novamente.");
+        return;
+    }
+    if (resultado.affectedRows === 0) {
+        res.status(404).send("Usuário não encontrado.");
+        return;
+    }
+    res.send("Usuário atualizado com sucesso!");
+});
+
     } else {
         res.status(400).send("Nenhum dado para atualizar.");
     }
