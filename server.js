@@ -74,7 +74,7 @@ app.post('/submit', (req, res) => {
     const { name, password, phone } = req.body;
     const image = req.files && req.files.image ? req.files.image.data : null;
 
-    const sql = "INSERT INTO usuario (nome, senha, telefone, imagem) VALUES (?, ?, ?, ?)";
+    const sql = "INSERT INTO node (nome, senha, telefone, imagem) VALUES (?, ?, ?, ?)";
     con.query(sql, [name, password, phone, image], (err, result) => {
         if (err) {
             console.error("Erro ao inserir no banco de dados:", err);
@@ -89,7 +89,7 @@ app.post('/submit', (req, res) => {
 // Rota para deletar usuário
 app.post('/delete', (req, res) => {
     const { id } = req.body;
-    const sql = "DELETE FROM usuario WHERE id = ?";
+    const sql = "DELETE FROM node WHERE id = ?";
     con.query(sql, [id], (err, result) => {
         if (err) {
             console.error("Erro ao excluir do banco de dados:", err);
@@ -108,7 +108,7 @@ app.post('/delete', (req, res) => {
 app.get('/search-results', (req, res) => {
     const { query } = req.query;
 
-    let sql = "SELECT id, nome, telefone, senha, imagem FROM usuario";
+    let sql = "SELECT id, nome, telefone, senha, imagem FROM node";
     const params = [];
 
     if (query && query !== '*') {
